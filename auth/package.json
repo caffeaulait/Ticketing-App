@@ -4,8 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest --watchAll --no-cache",
     "start": "ts-node-dev --poll src/index.ts"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "setupFilesAfterEnv": [
+      "./src/test/setup.ts"
+    ]
   },
   "keywords": [],
   "author": "",
@@ -22,10 +29,16 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.10.8",
     "morgan": "^1.10.0",
+    "@types/morgan": "^1.9.1",
     "ts-node-dev": "^1.0.0-pre.63",
     "typescript": "^4.0.3"
   },
   "devDependencies": {
-    "@types/morgan": "^1.9.1"
+    "@types/jest": "^26.0.14",
+    "@types/supertest": "^2.0.10",
+    "jest": "^26.5.2",
+    "mongodb-memory-server": "^6.9.0",
+    "supertest": "^5.0.0",
+    "ts-jest": "^26.4.1"
   }
 }
