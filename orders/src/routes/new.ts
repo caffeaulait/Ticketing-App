@@ -1,9 +1,17 @@
 import express, { Request, Response } from 'express';
-import { BadRequestError, NotFoundError, OrderStatus, requireAuth, validateRequest } from '@yangsworld/common';
+import {
+  BadRequestError,
+  NotFoundError,
+  OrderStatus,
+  requireAuth,
+  validateRequest,
+} from '@yangsworld/common';
 import { body } from 'express-validator';
 import mongoose from 'mongoose';
-import {Ticket} from '../models/ticket';
+import { Ticket } from '../models/ticket';
 import { Order } from '../models/ordet';
+import { OrderCreatedPublihser } from '../events/publishers/order-created-publisher';
+import { natsWrapper } from '../nats-wrapper';
 
 const router = express.Router();
 const EXPIRATION_WINDOW_SECONDS = 15 * 60;
@@ -20,13 +28,13 @@ router.post(
   ],
   validateRequest,
   async (req: Request, res: Response) => {
-    const {ticketId} = req.body;
+    const { ticketId } = req.body;
     const ticket = await Ticket.findById(ticketId);
-    if(!ticket) {
+    if (!ticket) {
       throw new NotFoundError();
     }
     let isReserved = await ticket.isReserved();
-    if(isReserved) {
+    if (isReserved) {
       throw new BadRequestError('Ticket already existed!');
     }
     const expiration = new Date();
@@ -35,9 +43,19 @@ router.post(
       userId: req.currentUser!.id,
       status: OrderStatus.Created,
       expiresAt: expiration,
-      ticket: ticket
-    })
+      ticket: ticket,
+    });
     await order.save();
+    new OrderCreatedPublihser(natsWrapper.client).publish({
+      id: order.id,
+      status: order.status,
+      userId: order.userId,
+      expiresAt: order.expiresAt.toISOString(),
+      ticket: {
+        id: ticket.id,
+        price: ticket.price,
+      },
+    });
     res.status(201).send(order);
   }
 );
