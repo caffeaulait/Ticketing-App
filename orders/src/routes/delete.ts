@@ -5,7 +5,9 @@ import {
   requireAuth,
 } from '@yangsworld/common';
 import express, { Request, Response } from 'express';
+import { OrderCancelledPublisher } from '../events/publishers/order-cancelled-publisher';
 import { Order } from '../models/ordet';
+import { natsWrapper } from '../nats-wrapper';
 
 const router = express.Router();
 
@@ -24,7 +26,13 @@ router.delete(
     await order.save();
 
     //publish an event
-
+    new OrderCancelledPublisher(natsWrapper.client).publish({
+      id: order.id,
+      ticket: {
+        id: order.ticket.id,
+      },
+      version: order.ticket.version,
+    });
     res.status(204).send(order);
   }
 );
