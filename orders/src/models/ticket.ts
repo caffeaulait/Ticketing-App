@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { Order, OrderStatus } from './ordet';
+import { Order, OrderStatus } from './order';
 import { updateIfCurrentPlugin } from 'mongoose-update-if-current';
 
 interface TicketAttrs {

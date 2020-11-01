@@ -1,7 +1,7 @@
 import { OrderStatus } from '@yangsworld/common';
 import request from 'supertest';
 import app from '../../app';
-import { Order } from '../../models/ordet';
+import { Order } from '../../models/order';
 import { Ticket } from '../../models/ticket';
 import { natsWrapper } from '../../nats-wrapper';
 import mongoose from 'mongoose';

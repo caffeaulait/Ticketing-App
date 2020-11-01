@@ -1,6 +1,6 @@
 import { requireAuth } from '@yangsworld/common';
 import express, { Request, Response } from 'express';
-import { Order } from '../models/ordet';
+import { Order } from '../models/order';
 
 const router = express.Router();
 

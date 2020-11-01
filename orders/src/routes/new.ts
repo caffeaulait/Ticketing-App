@@ -9,12 +9,12 @@ import {
 import { body } from 'express-validator';
 import mongoose from 'mongoose';
 import { Ticket } from '../models/ticket';
-import { Order } from '../models/ordet';
+import { Order } from '../models/order';
 import { OrderCreatedPublihser } from '../events/publishers/order-created-publisher';
 import { natsWrapper } from '../nats-wrapper';
 
 const router = express.Router();
-const EXPIRATION_WINDOW_SECONDS = 15 * 60;
+const EXPIRATION_WINDOW_SECONDS = 1 * 60;
 
 router.post(
   '/api/orders',
