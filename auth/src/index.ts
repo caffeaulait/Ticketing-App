@@ -16,13 +16,13 @@ const start = async () => {
       useUnifiedTopology: true,
       useCreateIndex: true,
     });
-    console.log('Connected to mongodb!!!');
+    console.log('Connected to mongodb...');
   } catch (err) {
     console.log(err);
   }
 
   app.listen(3000, () => {
-    console.log('Listening on port 3000!!!');
+    console.log('Listening on port 3000...');
   });
 };
 
