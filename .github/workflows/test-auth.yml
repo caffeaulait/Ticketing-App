@@ -1,7 +1,7 @@
 name: test-auth
 
 on:
-  [pull_request, push]:
+  push:
     paths:
       - 'auth/**'
 
