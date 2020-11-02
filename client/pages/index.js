@@ -1,4 +1,4 @@
-import buildClient from '../api/build-client';
+
 
 const Index = ({ currentUser }) => {
   return currentUser ? (
@@ -9,8 +9,7 @@ const Index = ({ currentUser }) => {
 };
 
 Index.getInitialProps = async (context) => {
-  const response = await buildClient(context).get('/api/users/currentuser');
-  return response.data;
+  return {};
 };
 
 export default Index;
