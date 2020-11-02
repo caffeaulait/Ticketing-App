@@ -1,4 +1,4 @@
-name: test-order
+name: test-orders
 
 on:
   [pull_request, push]
